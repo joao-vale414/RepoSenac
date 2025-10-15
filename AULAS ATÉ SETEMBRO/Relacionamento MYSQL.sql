@@ -1,0 +1,83 @@
+CREATE TABLE CLIENTES(
+ID INT PRIMARY KEY AUTO_INCREMENT,
+NOME VARCHAR(100));
+
+CREATE TABLE PRODUTOS( 
+ID INT PRIMARY KEY,
+PRODUTO VARCHAR(100),
+CATEGORIA VARCHAR (100),
+VALOR_UNITARIO DECIMAL (10,2)
+);
+
+CREATE TABLE PEDIDOS (ID INT PRIMARY KEY,
+CLIENTE_ID INT, 
+FOREIGN KEY (CLIENTE_ID) REFERENCES CLIENTES(ID),
+PRODUTO_ID INT,
+FOREIGN KEY (PRODUTO_ID) REFERENCES PRODUTOS(ID));
+
+INSERT INTO CLIENTES (ID, NOME) 
+VALUES
+(1,"João"),
+(2,"Eduarda"),
+(3,"Vitor"),
+(4,"Caio"),
+(5,"Luiza"),
+(6,"Maria");
+
+INSERT INTO PRODUTOS (ID, PRODUTO, CATEGORIA, VALOR_UNITARIO)
+VALUES
+(101, 'Notebook', 'Eletrônicos', 3500),
+(102, 'Mouse', 'Periféricos', 80),
+(103, 'Cadeira Gamer', 'Móveis', 850);
+
+INSERT INTO PRODUTOS (ID, PRODUTO, CATEGORIA, VALOR_UNITARIO)
+VALUES
+(104, 'Teclado Mecânico', 'Periféricos', 250),
+(105, 'Monitor 24"', 'Eletrônicos', 900),
+(106, 'Headset Gamer', 'Periféricos', 320),
+(107, 'Webcam HD', 'Periféricos', 150),
+(108, 'Impressora Multifuncional', 'Eletrônicos', 1200),
+(109, 'Gabinete ATX', 'Periféricos', 280),
+(110, 'Smartphone', 'Eletrônicos', 2100),
+(111, 'Cadeira Escritório', 'Móveis', 600),
+(112, 'Cadeira Gamer Deluxe', 'Móveis', 1200),
+(113, 'Tablet 10"', 'Eletrônicos', 1500);
+
+INSERT INTO PEDIDOS (ID, CLIENTE_ID, PRODUTO_ID)
+VALUES
+(1, 1, 101),
+(2, 1, 102),
+(3, 2, 101),
+(4, 2, 103),
+(5, 3, 102),
+(6, 3, 101),
+(7, 3, 103),
+(8, 4, 102),
+(9, 4, 101),
+(10, 5, 103),
+(11, 1, 104),
+(12, 2, 105), 
+(13, 3, 106),  
+(14, 4, 107), 
+(15, 5, 108),
+(16, 6 ,109),
+(17, 1, 110),  
+(18, 2, 111),  
+(19, 3, 112),  
+(20, 4, 113);  
+
+SELECT * FROM PEDIDOS;
+SELECT * FROM PRODUTOS;
+SELECT * FROM CLIENTES;
+
+SELECT
+C.NOME AS CLIENTE,
+P.ID AS PEDIDO_ID,
+PR.PRODUTO AS PRODUTO
+FROM 
+CLIENTES C
+LEFT JOIN PEDIDOS P ON P.CLIENTE_ID = C.ID
+LEFT JOIN PRODUTOS PR ON P.PRODUTO_ID = PR.ID;
+
+
+

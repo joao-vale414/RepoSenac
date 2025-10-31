@@ -1,0 +1,29 @@
+import pandas as pd
+import numpy as np 
+import matplotlib.pyplot as pl 
+
+df_clientes = pd.read_csv("clientes.csv"    , sep = ",", encoding = "latin1")
+df_vendas   = pd.read_csv("vendas.csv"      , sep = ",", encoding = "latin1")
+df_produtos = pd.read_csv("produtos.csv"    , sep = ",", encoding = "latin1")
+
+# Limpar e padronizar nomes
+def clean_df(df):
+    df = df.rename(columns = lambda x: x.strip().lower().replace(" ","_"))
+    return df 
+
+df_clientes = clean_df(df_clientes)
+df_vendas   = clean_df(df_vendas)
+df_produtos = clean_df(df_produtos)
+
+# Base Unificada 
+df = df_vendas.merge(df_clientes, on = "id_cliente").merge(df_produtos, on = "id_produto")
+
+gasto_medio_cliente                  = df.groupby("id_cliente")["valor_total"].sum()
+mais_comprados_por_idade_e_categoria = df.groupby(["idade","categoria"])["valor_total"].sum().sort_values(ascending = False)
+frequencia_de_compras_por_canal      = df["canal_aquisicao"].value_counts(normalize=True)
+ticket_medio_por_idade               = df.groupby(["canal_aquisicao", "idade"])["valor_total"].mean()
+
+gasto_medio_cliente.to_csv                  ("gasto_medio_cliente_csv",                 index = False, encoding = "utf-8")
+mais_comprados_por_idade_e_categoria.to_csv("mais_comprados_por_idade_e_categoria_csv", index = False, encoding = "utf-8")
+frequencia_de_compras_por_canal.to_csv("frequencia_de_compras_por_canal_csv",           index = False, encoding = "utf-8")
+ticket_medio_por_idade.to_csv("ticket_medio_por_idade_csv",                             index = False, encoding = "utf-8")

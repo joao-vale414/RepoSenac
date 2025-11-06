@@ -51,9 +51,10 @@ ticket_medio          = ticket_medio_por_idade           .reset_index()
 gasto_medio           = gasto_medio                      .reset_index()
 quantidade_media      = quantidade_media_produtos        .reset_index()
 
-mais_comprados_faixa.to_csv  ("mais_comprados_faixa.csv" , index = False, encoding = "utf-8-sig")
-frequencia_canal.to_csv      ("frequencia_canal.csv"     , index = False, encoding = "utf-8-sig")
-ticket_medio.to_csv          ("ticket_medio.csv"         , index = False, encoding = "utf-8-sig")
-gasto_medio.to_csv           ("gasto_medio.csv"          , index = False, encoding = "utf-8-sig")
-quantidade_media.to_csv      ("quantidade_media.csv"     , index = False, encoding = "utf-8-sig")
+mais_comprados_faixa .to_csv      ("mais_comprados_faixa.csv" , index = False, encoding = "utf-8-sig")
+frequencia_canal     .to_csv      ("frequencia_canal.csv"     , index = False, encoding = "utf-8-sig")
+ticket_medio         .to_csv      ("ticket_medio.csv"         , index = False, encoding = "utf-8-sig")
+gasto_medio          .to_csv      ("gasto_medio.csv"          , index = False, encoding = "utf-8-sig")
+quantidade_media     .to_csv      ("quantidade_media.csv"     , index = False, encoding = "utf-8-sig")
+
 

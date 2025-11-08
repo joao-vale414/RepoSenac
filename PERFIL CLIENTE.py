@@ -38,15 +38,13 @@ frequencia_de_compras_por_canal_1      = vendas_atualizado.groupby ("faixa_etari
 ticket_medio_por_idade_1               = vendas_atualizado.groupby (["Canal", "faixa_etaria"])       ["Valor_Total"]        .mean()                                .reset_index()
 gasto_medio_1                          = vendas_atualizado.groupby ("faixa_etaria")                  ["Valor_Total"]        .mean()                                .reset_index()
 quantidade_media_produtos_1            = vendas_atualizado.groupby ("faixa_etaria")                  ["Quantidade"]         .mean()                                .reset_index()
-
-mais_comprados_faixa_1              .to_csv  ("mais_comprados_faixa.csv" , index = False, encoding = "utf-8-sig")
-frequencia_de_compras_por_canal_1   .to_csv  ("frequencia_canal.csv"     , index = False, encoding = "utf-8-sig")
-ticket_medio_por_idade_1            .to_csv  ("ticket_medio.csv"         , index = False, encoding = "utf-8-sig")
-gasto_medio_1                       .to_csv  ("gasto_medio.csv"          , index = False, encoding = "utf-8-sig")
-quantidade_media_produtos_1         .to_csv  ("quantidade_media.csv"     , index = False, encoding = "utf-8-sig")
-vendas_atualizado                   .to_csv  ("vendas_atualizado.csv"    , index = False, sep      = ";")
-print(vendas_atualizado)
-
+                          
+mais_comprados_faixa_1              .to_csv  ("mais_comprados.csv" , index = False, encoding = "utf-8-sig")
+frequencia_de_compras_por_canal_1   .to_csv  ("frequencia_c.csv"     , index = False, encoding = "utf-8-sig")
+ticket_medio_por_idade_1            .to_csv  ("ticket_m.csv"         , index = False, encoding = "utf-8-sig")
+gasto_medio_1                       .to_csv  ("gasto_m.csv"          , index = False, encoding = "utf-8-sig")
+quantidade_media_produtos_1         .to_csv  ("quantidade_m.csv"     , index = False, encoding = "utf-8-sig")
+vendas_atualizado                   .to_csv  ("vendas_att.csv"    , index = False, sep      = ";")
 
 # bibliotecas selenium e pyautogui
 

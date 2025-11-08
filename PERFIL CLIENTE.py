@@ -2,31 +2,22 @@ import pandas as pd
 import numpy as np 
 import matplotlib.pyplot as plt
 
-df_clientes   = pd.read_csv("clientes.csv"           , sep = ",", encoding = "utf-8-sig")
-df_vendas     = pd.read_csv("vendas.csv"             , sep = ";", encoding = "utf-8-sig")
-df_vendas1    = pd.read_csv("venda 1.csv"            , sep = ";", encoding = "utf-8-sig")
-df_vendas2    = pd.read_csv("venda 2.csv"            , sep = ";", encoding = "utf-8-sig")
-df_vendas3    = pd.read_csv("venda 3.csv"            , sep = ";", encoding = "utf-8-sig")
-df_produtos   = pd.read_csv("produtos.csv"           , sep = ",", encoding = "utf-8-sig")
-df_produto1   = pd.read_csv("Produto adicional.csv"  , sep = ",", encoding = "utf-8-sig")
+df_clientes   = pd.read_csv("clientes.csv"           , sep = ",")
+df_vendas     = pd.read_csv("vendas.csv"             , sep = ",")
+df_vendas1    = pd.read_csv("venda 1.csv"            , sep = ",")
+df_vendas2    = pd.read_csv("venda 2.csv"            , sep = ",")
+df_vendas3    = pd.read_csv("venda 3.csv"            , sep = ",")
+df_produtos   = pd.read_csv("produtos.csv"           , sep = ",")
+df_produto1   = pd.read_csv("Produto adicional.csv"  , sep = ",")
 
 # Remover qualquer coluna com BOM ou cabeçalho 
-for df in [df_vendas, df_vendas1, df_vendas2, df_vendas3]:
-    df.drop(df.columns[df.columns.str.contains("ï»¿|ID_Venda,ID_Cliente")], axis = 1, inplace = True)
+'''for df in [df_vendas, df_vendas1, df_vendas2, df_vendas3]:
+    df.drop(df.columns[df.columns.str.contains("ï»¿|ID_Venda,ID_Cliente")], axis = 1, inplace = True)'''
 
 # Base Unificada Vendas 
 vendas_atualizado   = pd.concat([df_vendas,df_vendas1,df_vendas2,df_vendas3] ,ignore_index = True)
 produtos_atualizado = pd.concat([df_produto1,df_produtos]                    ,ignore_index = True)
-
-# Limpar e padronizar nomes
-def clean_df(df):
-    df = df.rename(columns = lambda x: x.strip().lower().replace(" ","_"))
-    return df 
-
-df_clientes           = clean_df  (df_clientes)
-endas_atualizado      = clean_df  (vendas_atualizado)
-produtos_atualizado   = clean_df (produtos_atualizado)
-
+ 
 def faixa_etaria(idade):
     if idade <= 18:
         return "Jovem"
@@ -35,28 +26,27 @@ def faixa_etaria(idade):
     else:
         return "Idoso"
 
-df_clientes["faixa_etaria"] = df_clientes["idade"].apply(faixa_etaria)
+df_clientes["faixa_etaria"] = df_clientes["Idade"].apply(faixa_etaria)
 
-vendas_atualizado = vendas_atualizado.merge(df_clientes[["id_cliente", "faixa_etaria"]], on = "id_cliente", how = "left")
 
-mais_comprados_faixa                = vendas_atualizado.groupby (["faixa_etaria","id_produto"])   ["valor_total"]        .sum().sort_values (ascending = False)
-frequencia_de_compras_por_canal     = vendas_atualizado.groupby ("faixa_etaria")                  ["canal"]              .value_counts      (normalize = True)
-ticket_medio_por_idade              = vendas_atualizado.groupby (["canal", "faixa_etaria"])       ["valor_total"]        .mean()
-gasto_medio                         = vendas_atualizado.groupby ("faixa_etaria")                  ["valor_total"]        .mean()
-quantidade_media_produtos           = vendas_atualizado.groupby ("faixa_etaria")                  ["quantidade"]         .mean()
+vendas_atualizado = pd.merge(vendas_atualizado, df_clientes[["ID_Cliente","faixa_etaria"]], on = "ID_Cliente", how = "left")
 
-mais_comprados_faixa  = mais_comprados_faixa             .reset_index()
-frequencia_canal      = frequencia_de_compras_por_canal  .reset_index()
-ticket_medio          = ticket_medio_por_idade           .reset_index()
-gasto_medio           = gasto_medio                      .reset_index()
-quantidade_media      = quantidade_media_produtos        .reset_index()
+vendas_atualizado["Data"] =vendas_atualizado["Data"].str.replace("00:00:00"," ")
 
-mais_comprados_faixa .to_csv      ("mais_comprados_faixa.csv" , index = False, encoding = "utf-8-sig")
-frequencia_canal     .to_csv      ("frequencia_canal.csv"     , index = False, encoding = "utf-8-sig")
-ticket_medio         .to_csv      ("ticket_medio.csv"         , index = False, encoding = "utf-8-sig")
-gasto_medio          .to_csv      ("gasto_medio.csv"          , index = False, encoding = "utf-8-sig")
-quantidade_media     .to_csv      ("quantidade_media.csv"     , index = False, encoding = "utf-8-sig")
-vendas_atualizado    .to_csv      ("vendas_atualizado.csv"     , index = False, encoding = "utf-8-sig")
+mais_comprados_faixa_1                 = vendas_atualizado.groupby (["faixa_etaria","ID_Produto"])   ["Valor_Total"]        .sum().sort_values (ascending = False) .reset_index()
+frequencia_de_compras_por_canal_1      = vendas_atualizado.groupby ("faixa_etaria")                  ["Canal"]              .value_counts      (normalize = True)  .reset_index()
+ticket_medio_por_idade_1               = vendas_atualizado.groupby (["Canal", "faixa_etaria"])       ["Valor_Total"]        .mean()                                .reset_index()
+gasto_medio_1                          = vendas_atualizado.groupby ("faixa_etaria")                  ["Valor_Total"]        .mean()                                .reset_index()
+quantidade_media_produtos_1            = vendas_atualizado.groupby ("faixa_etaria")                  ["Quantidade"]         .mean()                                .reset_index()
+
+mais_comprados_faixa_1              .to_csv  ("mais_comprados_faixa.csv" , index = False, encoding = "utf-8-sig")
+frequencia_de_compras_por_canal_1   .to_csv  ("frequencia_canal.csv"     , index = False, encoding = "utf-8-sig")
+ticket_medio_por_idade_1            .to_csv  ("ticket_medio.csv"         , index = False, encoding = "utf-8-sig")
+gasto_medio_1                       .to_csv  ("gasto_medio.csv"          , index = False, encoding = "utf-8-sig")
+quantidade_media_produtos_1         .to_csv  ("quantidade_media.csv"     , index = False, encoding = "utf-8-sig")
+vendas_atualizado                   .to_csv  ("vendas_atualizado.csv"    , index = False, sep      = ";")
+print(vendas_atualizado)
+
 
 # bibliotecas selenium e pyautogui
 

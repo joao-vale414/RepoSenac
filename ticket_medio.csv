@@ -1,7 +1,7 @@
-﻿canal,faixa_etaria,valor_total
-Loja FÃ­sica,Adulto,6446.778382817435
-Loja FÃ­sica,Idoso,6526.916907730673
-Loja FÃ­sica,Jovem,7090.057037037037
-Online,Adulto,6885.516831812256
-Online,Idoso,6655.951639784946
-Online,Jovem,7186.126607142857
+﻿Canal,faixa_etaria,Valor_Total
+Loja Física,Adulto,113473.05551013975
+Loja Física,Idoso,123355.0076940332
+Loja Física,Jovem,141191.63151943462
+Online,Adulto,117365.58000105152
+Online,Idoso,120649.75920554272
+Online,Jovem,141738.86304054054
